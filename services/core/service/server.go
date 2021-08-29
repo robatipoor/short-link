@@ -60,7 +60,7 @@ func CreateNewLink(req *request.CreateNewUrl) (*response.CreateNewUrl, error) {
 	}
 	err = model.InsertUrl(&url, exp)
 	if err != nil {
-		log.Printf("faield insert new url %s", err)
+		log.Println("faield insert new url ", err.Error())
 		return nil, err
 	}
 	resp := response.CreateNewUrl{}

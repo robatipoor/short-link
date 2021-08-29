@@ -14,6 +14,7 @@ func GetNewKey(exp int) (string, error) {
 	resp, err := http.Get("http://" + config.ServerAddr + ":" + config.ServerPort + "/getkey?exp=" + strconv.Itoa(exp))
 	if err != nil {
 		log.Printf("get new key failed %s \n", err)
+		return "", err
 	}
 	defer resp.Body.Close()
 	b, err := ioutil.ReadAll(resp.Body)

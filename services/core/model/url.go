@@ -17,7 +17,6 @@ type Url struct {
 }
 
 func InsertUrl(url *Url, exp int) error {
-	log.Println(url)
 	q := `
 		INSERT INTO urls (
 			original_url,
@@ -34,7 +33,7 @@ func InsertUrl(url *Url, exp int) error {
 	).Exec()
 	log.Println(url)
 	if err != nil {
-		log.Printf("ERROR: fail create urls , %s", err.Error())
+		log.Println("fail create urls ", url)
 	}
 	return err
 }
@@ -50,14 +49,14 @@ func FindUrlByShortUrl(url string) (*Url, error) {
 		u.CreateDate = m["create_date"].(time.Time)
 		return &u, nil
 	}
-	return nil, errors.New("find url by short url failed !!!")
+	return nil, errors.New("find url by short url failed")
 }
 
 func DeleteUrlByShortUrl(url string) error {
 	q := ` DELETE FROM urls WHERE short_url = ?;`
 	err := config.SessionDB.Query(q, url).Exec()
 	if err != nil {
-		log.Printf("ERROR: fail delete urls , %s", err.Error())
+		log.Println("fail delete urls ", url)
 	}
 	return err
 }

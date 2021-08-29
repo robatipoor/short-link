@@ -22,7 +22,7 @@ func Redirect(w http.ResponseWriter, r *http.Request) {
 	req.ShortUrl = key
 	resp, err := service.Redirect(&req)
 	if err != nil {
-		http.Error(w, "failed", http.StatusInternalServerError)
+		http.Error(w, "redirect failed", http.StatusInternalServerError)
 		return
 	}
 	log.Println("redirect to ", resp.Link)
@@ -33,7 +33,7 @@ func CreateNewLink(w http.ResponseWriter, r *http.Request) {
 	var req request.CreateNewUrl
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, "decode failed ", http.StatusInternalServerError)
+		http.Error(w, "create new link decode request failed ", http.StatusInternalServerError)
 		return
 	}
 	resp, err := service.CreateNewLink(&req)
@@ -51,7 +51,7 @@ func DeleteLink(w http.ResponseWriter, r *http.Request) {
 	key := m["key"]
 	err := service.DeleteLink(key)
 	if err != nil {
-		http.Error(w, "", http.StatusInternalServerError)
+		http.Error(w, "delete link failed", http.StatusInternalServerError)
 		return
 	}
 	fmt.Fprintln(w, "ok")
