@@ -13,7 +13,7 @@ import (
 func GetNewKey(exp int) (string, error) {
 	resp, err := http.Get("http://" + config.ServerAddr + ":" + config.ServerPort + "/getkey?exp=" + strconv.Itoa(exp))
 	if err != nil {
-		log.Printf("get new key failed %s \n", err)
+		log.Println("get new key failed error details ", err)
 		return "", err
 	}
 	defer resp.Body.Close()
@@ -28,17 +28,17 @@ func DeleteKey(key string) error {
 	client := &http.Client{}
 	req, err := http.NewRequest("DELETE", "http://"+config.ServerAddr+":"+config.ServerPort+"/"+key, nil)
 	if err != nil {
-		log.Println(err)
+		log.Println("create new request for delete key failed")
 		return err
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Println(err)
+		log.Println("call keygen failed")
 		return err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode == 200 {
-		return errors.New("unsuccess")
+		return errors.New("delete key in keygen service failed ")
 	}
 	return nil
 }

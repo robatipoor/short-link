@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"log"
 	"time"
 
@@ -25,7 +26,7 @@ func init() {
 
 func Redirect(req *request.Redirect) (*response.Redirect, error) {
 	if url, ok := cache.Get(req.ShortUrl); ok {
-		log.Println("find in cache")
+		log.Println("find in cache key ", req.ShortUrl)
 		r := &response.Redirect{
 			Link: url.(string),
 		}
@@ -60,7 +61,7 @@ func CreateNewLink(req *request.CreateNewUrl) (*response.CreateNewUrl, error) {
 	}
 	err = model.InsertUrl(&url, exp)
 	if err != nil {
-		log.Println("faield insert new url ", err.Error())
+		log.Println("failed insert new url ", err.Error())
 		return nil, err
 	}
 	resp := response.CreateNewUrl{}
@@ -71,13 +72,16 @@ func CreateNewLink(req *request.CreateNewUrl) (*response.CreateNewUrl, error) {
 func DeleteLink(key string) error {
 	err := model.DeleteUrlByShortUrl(key)
 	if err != nil {
+		log.Println("detele link failed details : ", err.Error())
 		return err
 	}
 	err = client.DeleteKey(key)
 	if err != nil {
-		log.Println(err)
+		log.Println("detele link keygen failed details : ", err.Error())
 		return err
 	}
-	cache.Remove(key)
+	if !cache.Remove(key) {
+		return errors.New("failed delete key " + key)
+	}
 	return nil
 }

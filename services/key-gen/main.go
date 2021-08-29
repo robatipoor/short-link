@@ -10,6 +10,6 @@ import (
 func main() {
 	defer config.SessionDB.Close()
 	r := router.NewRouter()
-	http.Handle("/api", r)
+	http.Handle("/", r)
 	http.ListenAndServe(":"+config.ServerPort, r)
 }

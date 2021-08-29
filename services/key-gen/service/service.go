@@ -56,7 +56,7 @@ func UseKey(k string, exp string) error {
 		Value:      k,
 		CreateDate: time.Now(),
 	}
-	log.Printf("k %s  ex %d",k,ex)
+	log.Printf("k %s  ex %d", k, ex)
 	return model.InsertUsedKey(&key, ex)
 }
 

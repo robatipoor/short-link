@@ -9,13 +9,13 @@ import (
 )
 
 type Key struct {
-	Value     string    `cql:"value"`
+	Value      string    `cql:"value"`
 	CreateDate time.Time `cql:"create_date"`
 }
 
 func NewKey(value string) Key {
 	return Key{
-		Value:     value,
+		Value:      value,
 		CreateDate: time.Now(),
 	}
 }
@@ -37,7 +37,7 @@ func InsertUnusedKey(key *Key) error {
 	return err
 }
 
-func InsertUsedKey(key *Key,exp int) error {
+func InsertUsedKey(key *Key, exp int) error {
 	query := `
 		INSERT INTO used_keys (
 		    value,
@@ -57,7 +57,7 @@ func InsertUsedKey(key *Key,exp int) error {
 
 }
 
-func ReInsertUsedKey(key *Key,exp int) error {
+func ReInsertUsedKey(key *Key, exp int) error {
 	query := `
 		INSERT INTO used_keys (
 		    value,
@@ -132,7 +132,7 @@ func DeleteUnUsedKey(key *Key) error {
 
 func DeleteUsedKey(key *Key) error {
 	q := `DELETE FROM used_keys WHERE value = ?`
-	err := config.SessionDB.Query(q,key.Value).Exec()
+	err := config.SessionDB.Query(q, key.Value).Exec()
 	if err != nil {
 		log.Printf("ERROR: fail delete key, %s", err.Error())
 		return err

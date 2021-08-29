@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gocql/gocql"
+	"github.com/robatipoor/short-link/pkg/configs"
 	"github.com/robatipoor/short-link/pkg/utils"
 )
 
@@ -12,24 +13,17 @@ const (
 	KeyPoolSize              = 10
 	KeyLen                   = 6
 	KeyJobScheduleTimeSecond = 10
-	ServerPort = "8081"
-	ServerAddr = "127.0.0.1"
+	ServerPort               = "8081"
+	ServerAddr               = "127.0.0.1"
 )
 
 var SessionDB *gocql.Session
 
-type CassandraConfig struct {
-	host        string
-	port        string
-	keyspace    string
-	consistancy string
-}
-
-var cassandraConfig = CassandraConfig{
-	host:        utils.GetEnv("CASSANDRA_HOST", "127.0.0.1"),
-	port:        utils.GetEnv("CASSANDRA_PORT", "9042"),
-	keyspace:    utils.GetEnv("CASSANDRA_KEYSPACE", "key_gen_space"),
-	consistancy: utils.GetEnv("CASSANDRA_CONSISTANCY", "LOCAL_QUORUM"),
+var cassandraConfig = configs.CassandraConfig{
+	Host:        utils.GetEnv("CASSANDRA_HOST", "127.0.0.1"),
+	Port:        utils.GetEnv("CASSANDRA_PORT", "9042"),
+	Keyspace:    utils.GetEnv("CASSANDRA_KEYSPACE", "key_gen_space"),
+	Consistancy: utils.GetEnv("CASSANDRA_CONSISTANCY", "LOCAL_QUORUM"),
 }
 
 func init() {
@@ -53,10 +47,10 @@ func initSessionDB() {
 		return gc
 	}
 
-	cluster := gocql.NewCluster(cassandraConfig.host)
-	cluster.Port = port(cassandraConfig.port)
-	cluster.Keyspace = cassandraConfig.keyspace
-	cluster.Consistency = consistancy(cassandraConfig.consistancy)
+	cluster := gocql.NewCluster(cassandraConfig.Host)
+	cluster.Port = port(cassandraConfig.Port)
+	cluster.Keyspace = cassandraConfig.Keyspace
+	cluster.Consistency = consistancy(cassandraConfig.Consistancy)
 	var err error
 	SessionDB, err = cluster.CreateSession()
 	if err != nil {

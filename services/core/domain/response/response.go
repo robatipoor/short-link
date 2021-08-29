@@ -4,11 +4,8 @@ type Redirect struct {
 	Link string
 }
 
-
-type CreateNewUrl struct{
+type CreateNewUrl struct {
 	Link string
 }
 
-type DeleteUrl struct{
-	
-}
+type DeleteUrl struct{}

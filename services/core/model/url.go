@@ -39,7 +39,7 @@ func InsertUrl(url *Url, exp int) error {
 }
 
 func FindUrlByShortUrl(url string) (*Url, error) {
-	q := `SELECT * FROM urls WHERE short_url = ? ;`
+	q := `SELECT * FROM urls WHERE short_url = ?;`
 	m := map[string]interface{}{}
 	iter := config.SessionDB.Query(q, url).Consistency(gocql.One).Iter()
 	if iter.MapScan(m) {
@@ -53,7 +53,7 @@ func FindUrlByShortUrl(url string) (*Url, error) {
 }
 
 func DeleteUrlByShortUrl(url string) error {
-	q := ` DELETE FROM urls WHERE short_url = ?;`
+	q := `DELETE FROM urls WHERE short_url = ?;`
 	err := config.SessionDB.Query(q, url).Exec()
 	if err != nil {
 		log.Println("fail delete urls ", url)

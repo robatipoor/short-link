@@ -42,7 +42,7 @@ func UseKey(w http.ResponseWriter, r *http.Request) {
 func DelKey(w http.ResponseWriter, r *http.Request) {
 	m := mux.Vars(r)
 	key := m["key"]
-	log.Println("delete key : ",key)
+	log.Println("delete key : ", key)
 	err := service.DelKey(key)
 	if err != nil {
 		log.Println(err)
