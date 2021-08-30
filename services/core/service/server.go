@@ -1,7 +1,6 @@
 package service
 
 import (
-	"errors"
 	"log"
 	"time"
 
@@ -72,16 +71,14 @@ func CreateNewLink(req *request.CreateNewUrl) (*response.CreateNewUrl, error) {
 func DeleteLink(key string) error {
 	err := model.DeleteUrlByShortUrl(key)
 	if err != nil {
-		log.Println("detele link failed details : ", err.Error())
+		log.Println("delete url failed details : ", err.Error())
 		return err
 	}
 	err = client.DeleteKey(key)
 	if err != nil {
-		log.Println("detele link keygen failed details : ", err.Error())
+		log.Println("call delete key in keygen failed details : ", err.Error())
 		return err
 	}
-	if !cache.Remove(key) {
-		return errors.New("failed delete key " + key)
-	}
+	cache.Remove(key)
 	return nil
 }

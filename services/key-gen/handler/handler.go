@@ -45,7 +45,7 @@ func DelKey(w http.ResponseWriter, r *http.Request) {
 	log.Println("delete key : ", key)
 	err := service.DelKey(key)
 	if err != nil {
-		log.Println(err)
+		log.Println("delete key service failed details : ",err)
 		http.Error(w, "failed delete key", http.StatusInternalServerError)
 		return
 	}

@@ -36,9 +36,10 @@ func DeleteKey(key string) error {
 		log.Println("call keygen failed")
 		return err
 	}
+	log.Println("response delete key keygen status code ", resp.StatusCode)
 	defer resp.Body.Close()
-	if resp.StatusCode == 200 {
-		return errors.New("delete key in keygen service failed ")
+	if resp.StatusCode != 200 {
+		return errors.New("delete key in keygen service un success")
 	}
 	return nil
 }

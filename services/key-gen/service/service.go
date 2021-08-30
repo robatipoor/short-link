@@ -64,6 +64,7 @@ func DelKey(key string) error {
 	k := model.Key{
 		Value: key,
 	}
+	log.Println("delete key ",k)
 	return model.DeleteUsedKey(&k)
 }
 
